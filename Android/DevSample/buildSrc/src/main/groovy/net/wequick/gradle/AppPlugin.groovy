@@ -1540,10 +1540,12 @@ class AppPlugin extends BundlePlugin {
         int prefixLen = javac.destinationDir.path.length() + 1
         javac.destinationDir.eachFileRecurse(FileType.FILES, {
             if (it.name == 'BR.class') {
-                String relativePath = it.path.substring(prefixLen)
-                if (!relativePath.startsWith(small.packagePath)) {
-                    bindingReferenceDirs.add(it.parentFile)
-                }
+                  String relativePath = it.path.substring(prefixLen)
+                  String separator = File.separator
+                  String convertToCurrentSystemPath = small.packagePath.replace("/",separator)
+                  if (!relativePath.startsWith(convertToCurrentSystemPath)) {
+                      bindingReferenceDirs.add(it.parentFile)
+                  }
             }
         })
         bindingReferenceDirs.each {
